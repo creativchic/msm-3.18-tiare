@@ -57,6 +57,7 @@
 #include <asm/unwind.h>
 #include <asm/memblock.h>
 #include <asm/virt.h>
+#include <asm/bootinfo.h>
 
 #include "atags.h"
 
@@ -604,6 +605,12 @@ static void __init smp_build_mpidr_hash(void)
 	sync_cache_w(&mpidr_hash);
 }
 #endif
+
+void __init early_init_dt_setup_pureason_arch(unsigned long pu_reason)
+{
+	set_powerup_reason(pu_reason);
+	pr_info("Powerup reason=0x%x\n", get_powerup_reason());
+}
 
 static void __init setup_processor(void)
 {
